@@ -1,0 +1,170 @@
+{
+    "app": {
+        "name": "Dynamic Frontend System",
+        "version": "1.0.0"
+    },
+    "themes": {
+        "light": {
+            "primary": "#1E90FF",
+            "secondary": "#FFFFFF",
+            "textColor": "#333"
+        },
+        "dark": {
+            "primary": "#0A0A0A",
+            "secondary": "#1E1E1E",
+            "textColor": "#EEE"
+        }
+    },
+    "layouts": {
+        "public": {
+            "theme": "light",
+            "components": [
+                "Navbar",
+                "Footer"
+            ]
+        },
+        "user": {
+            "theme": "light",
+            "components": [
+                "UserNavbar",
+                "UserFooter"
+            ]
+        },
+        "admin": {
+            "theme": "dark",
+            "components": [
+                "Sidebar",
+                "AdminTopbar"
+            ]
+        }
+    },
+    "menus": {
+        "public": [
+            {
+                "label": "Home",
+                "path": "/home",
+                "icon": "home"
+            },
+            {
+                "label": "Login",
+                "path": "/login",
+                "icon": "user"
+            }
+        ],
+        "user": [
+            {
+                "label": "Dashboard",
+                "path": "/dashboard",
+                "icon": "dashboard"
+            },
+            {
+                "label": "Profile",
+                "path": "/profile",
+                "icon": "user"
+            }
+        ],
+        "admin": [
+            {
+                "label": "Dashboard",
+                "path": "/admin/dashboard",
+                "icon": "dashboard"
+            },
+            {
+                "label": "Users",
+                "path": "/admin/users",
+                "icon": "users"
+            }
+        ]
+    },
+    "pages": [
+        {
+            "path": "/home",
+            "layout": "public",
+            "default": true,
+            "title": "Welcome",
+            "components": [
+                {
+                    "type": "hero",
+                    "heading": "Welcome to Dynamic App",
+                    "subtext": "JSON-driven UI"
+                }
+            ]
+        },
+        {
+            "path": "/login",
+            "layout": "none",
+            "title": "Login Page",
+            "fullscreen": true,
+            "components": [
+                {
+                    "type": "form",
+                    "submitApi": "/api/auth/login",
+                    "fields": [
+                        {
+                            "type": "text",
+                            "name": "email",
+                            "label": "Email",
+                            "validation": "required|email"
+                        },
+                        {
+                            "type": "password",
+                            "name": "password",
+                            "label": "Password",
+                            "validation": "required"
+                        }
+                    ],
+                    "buttons": [
+                        {
+                            "type": "submit",
+                            "label": "Login"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path": "/dashboard",
+            "layout": "user",
+            "title": "User Dashboard",
+            "components": [
+                {
+                    "type": "stats",
+                    "items": [
+                        {
+                            "label": "Orders",
+                            "valueApi": "/api/user/orders/count"
+                        },
+                        {
+                            "label": "Messages",
+                            "valueApi": "/api/user/messages/count"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path": "/admin/dashboard",
+            "layout": "admin",
+            "title": "Admin Panel",
+            "components": [
+                {
+                    "type": "chart",
+                    "chartType": "bar",
+                    "dataApi": "/api/admin/stats/sales"
+                }
+            ]
+        },
+        {
+            "path": "/fullscreen-editor",
+            "layout": "none",
+            "title": "Fullscreen Editor",
+            "fullscreen": true,
+            "components": [
+                {
+                    "type": "editor",
+                    "dataApi": "/api/editor/load"
+                }
+            ]
+        }
+    ]
+}
