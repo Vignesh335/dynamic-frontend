@@ -47,48 +47,72 @@
 // }
 
 // export default App;
-import { BrowserRouter as Router, Routes, Route, useParams, useNavigate } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useParams,
+} from "react-router-dom";
+import "./App.css";
+
+import DynamicLayout from "./components/layouts/DynamicLayout";
 import DynamicPage from "./pages/DynamicPage";
-import AdminLayout from "./components/layouts/AdminLayout";
-import UserLayout from "./components/layouts/UserLayout";
-import PublicLayout from "./components/layouts/PublicLayout";
 import appConfig from "./config/appConfig.json";
-import { useEffect, type JSX } from "react";
+
+import { useEffect, useState } from "react";
 
 const LayoutWrapper = () => {
-  const { path: paramPath } = useParams<{ path: string }>();
-  let pagePath = paramPath;
-  const navigate = useNavigate();
+  const { path } = useParams<{ path: string }>();
+  const currentPath = `/${path ?? ""}`;
+  const [selectedContent, setSelectedContent] = useState<string>("");
+
+  const [layoutConfig, setLayoutConfig] = useState<any>(null);
+  const [selectedItem, setSelectedItem] = useState<any>(null);
 
   useEffect(() => {
-    if (!paramPath) {
-      const defaultPage: any = appConfig.pages.find((p: any) => p.default) || appConfig.pages[0];
-      navigate(defaultPage.path, { replace: true });
+    const layouts: any = appConfig.layouts;
+
+    let foundLayout = null;
+    let foundItem = null;
+    let foundContent: any = "";
+
+    // Search through all layouts and their sider items
+    for (const layoutName of Object.keys(layouts)) {
+      const layout = layouts[layoutName];
+
+      // Sider items
+      for (const item of layout.sider?.items || []) {
+        if (item.route === currentPath) {
+          foundLayout = layout;
+          foundContent = item.content || "";
+          foundItem = item;
+          break;
+        }
+        else if (item.additionalPaths?.includes(currentPath)) {
+          foundLayout = layout;
+          foundContent = (item?.header_items ?? []).filter((hi: any) => hi.route === currentPath)?.[0]?.content;
+          foundItem = item;
+          break;
+        }
+      }
+
+      if (foundLayout) break;
     }
-  }, [paramPath, navigate]);
 
-  const page: any = appConfig.pages.find(p => p.path === `/${pagePath}`);
+    // fallback layout if no match
+    setLayoutConfig(foundLayout ?? { theme: "light", header: {}, sider: { items: [] } });
+    setSelectedItem(foundItem ?? null);
+    setSelectedContent(foundContent || "");
+  }, [currentPath, path]);
 
-  const getLayout = (layoutName: string | null | undefined, children: JSX.Element) => {
-    if (!layoutName) return <>{children}</>; // fullscreen or no layout
+  // still loading → prevent flashing
+  if (!layoutConfig) return <div style={{ padding: 20 }}>Loading...</div>;
 
-    const layoutConfig = appConfig.layouts[layoutName as keyof typeof appConfig.layouts];
-    if (!layoutConfig) return <>{children}</>; // fallback
-
-    return (
-      <div className={`layout ${layoutName}`} style={{ background: layoutConfig.theme === 'dark' ? '#1E1E1E' : '#fff' }}>
-        {layoutConfig.components.includes("Navbar") && <div>Navbar</div>}
-        {layoutConfig.components.includes("Sidebar") && <div>Sidebar</div>}
-        <main>{children}</main>
-        {layoutConfig.components.includes("Footer") && <div>Footer</div>}
-        {layoutConfig.components.includes("AdminTopbar") && <div>Admin Topbar</div>}
-      </div>
-    );
-  };
-
-  if (!page) return <div>Page not found</div>;
-
-  return getLayout(page.layout, <DynamicPage />);
+  return (
+    <DynamicLayout config={layoutConfig} selectedItem={selectedItem}>
+      <DynamicPage path={currentPath} selectedItem={selectedItem} content={selectedContent} />
+    </DynamicLayout>
+  );
 };
 
 function App() {

@@ -1,17 +1,39 @@
-import type { ReactNode } from "react";
+import { Link } from "react-router-dom";
+import type { LayoutConfig } from "../../types/AppConfig";
 
 interface Props {
-  children: ReactNode;
+  config: LayoutConfig;
+  children: React.ReactNode;
 }
 
-const AdminLayout = ({ children }: Props) => {
+const AdminLayout = ({ config, children }: Props) => {
   return (
-    <div style={{ display: "flex" }}>
-      <aside style={{ width: "250px", background: "#222", color: "#fff" }}>Sidebar</aside>
-      <div style={{ flex: 1, padding: "20px" }}>
-        <header style={{ background: "#444", padding: "10px", color: "#fff" }}>Admin Topbar</header>
-        {children}
-      </div>
+    <div
+      className="admin-layout"
+      style={{
+        background: config.theme === "dark" ? "#111" : "#f7f7f7",
+        minHeight: "100vh",
+      }}
+    >
+      {/* HEADER */}
+      <header
+        style={{
+          display: "flex",
+          gap: 20,
+          padding: "15px 20px",
+          background: "#fff",
+          borderBottom: "1px solid #ddd",
+        }}
+      >
+        {config.header_items.map((item) => (
+          <Link key={item.key} to={`/${item.key}`}>
+            {item.label}
+          </Link>
+        ))}
+      </header>
+
+      {/* CONTENT */}
+      <main style={{ padding: 20 }}>{children}</main>
     </div>
   );
 };

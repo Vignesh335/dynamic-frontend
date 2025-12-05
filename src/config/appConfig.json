@@ -16,155 +16,83 @@
         }
     },
     "layouts": {
-        "public": {
-            "theme": "light",
-            "components": [
-                "Navbar",
-                "Footer"
-            ]
-        },
         "user": {
+            "layout_id": 4,
             "theme": "light",
-            "components": [
-                "UserNavbar",
-                "UserFooter"
-            ]
-        },
-        "admin": {
-            "theme": "dark",
-            "components": [
-                "Sidebar",
-                "AdminTopbar"
-            ]
+            "header": {
+                "variant": "centered",
+                "height": 60,
+                "style": {
+                    "backgroundColor": "#1E90FF",
+                    "color": "#FFFFFF",
+                    "padding": "0 20px",
+                    "display": "flex",
+                    "alignItems": "center",
+                    "justifyContent": "space-between"
+                },
+                "show_header": true
+            },
+            "sider": {
+                "variant": "pill",
+                "width": 250,
+                "height": "100vh",
+                "style": {
+                    "backgroundColor": "#F5F5F5",
+                    "padding": "20px"
+                },
+                "items": [
+                    {
+                        "label": "Home",
+                        "key": "home",
+                        "route": "/home",
+                        "additionalPaths": [],
+                        "show_sider": true,
+                        "children": [],
+                        "content": "<div><h1>Home</h1></div>",
+                        "header_items": []
+                    },
+                    {
+                        "label": "Settings",
+                        "key": "settings",
+                        "show_sider": true,
+                        "route": "/settings",
+                        "additionalPaths": [
+                            "/profile",
+                            "/my-apps",
+                            "/my-enrollments",
+                            "/my-devices"
+                        ],
+                        "children": [],
+                        "content": "<div><h1>Settings</h1></div>",
+                        "header_items": [
+                            {
+                                "label": "Profile",
+                                "key": "profile",
+                                "route": "/profile",
+                                "content": "<div><h1>Profile</h1></div>"
+                            },
+                            {
+                                "label": "My Apps",
+                                "key": "my-apps",
+                                "route": "/my-apps",
+                                "content": "<div><h1>My Apps</h1></div>"
+                            },
+                            {
+                                "label": "My Enrollments",
+                                "key": "my-enrollments",
+                                "route": "/my-enrollments",
+                                "content": "<div><h1>My Enrollments</h1></div>"
+                            },
+                            {
+                                "label": "My Devices",
+                                "key": "my-devices",
+                                "route": "/my-devices",
+                                "content": "<div><h1>My Devices</h1></div>"
+                            }
+                        ]
+                    }
+                ]
+            }
         }
-    },
-    "menus": {
-        "public": [
-            {
-                "label": "Home",
-                "path": "/home",
-                "icon": "home"
-            },
-            {
-                "label": "Login",
-                "path": "/login",
-                "icon": "user"
-            }
-        ],
-        "user": [
-            {
-                "label": "Dashboard",
-                "path": "/dashboard",
-                "icon": "dashboard"
-            },
-            {
-                "label": "Profile",
-                "path": "/profile",
-                "icon": "user"
-            }
-        ],
-        "admin": [
-            {
-                "label": "Dashboard",
-                "path": "/admin/dashboard",
-                "icon": "dashboard"
-            },
-            {
-                "label": "Users",
-                "path": "/admin/users",
-                "icon": "users"
-            }
-        ]
-    },
-    "pages": [
-        {
-            "path": "/home",
-            "layout": "public",
-            "default": true,
-            "title": "Welcome",
-            "components": [
-                {
-                    "type": "hero",
-                    "heading": "Welcome to Dynamic App",
-                    "subtext": "JSON-driven UI"
-                }
-            ]
-        },
-        {
-            "path": "/login",
-            "layout": "none",
-            "title": "Login Page",
-            "fullscreen": true,
-            "components": [
-                {
-                    "type": "form",
-                    "submitApi": "/api/auth/login",
-                    "fields": [
-                        {
-                            "type": "text",
-                            "name": "email",
-                            "label": "Email",
-                            "validation": "required|email"
-                        },
-                        {
-                            "type": "password",
-                            "name": "password",
-                            "label": "Password",
-                            "validation": "required"
-                        }
-                    ],
-                    "buttons": [
-                        {
-                            "type": "submit",
-                            "label": "Login"
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "path": "/dashboard",
-            "layout": "user",
-            "title": "User Dashboard",
-            "components": [
-                {
-                    "type": "stats",
-                    "items": [
-                        {
-                            "label": "Orders",
-                            "valueApi": "/api/user/orders/count"
-                        },
-                        {
-                            "label": "Messages",
-                            "valueApi": "/api/user/messages/count"
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "path": "/admin/dashboard",
-            "layout": "admin",
-            "title": "Admin Panel",
-            "components": [
-                {
-                    "type": "chart",
-                    "chartType": "bar",
-                    "dataApi": "/api/admin/stats/sales"
-                }
-            ]
-        },
-        {
-            "path": "/fullscreen-editor",
-            "layout": "none",
-            "title": "Fullscreen Editor",
-            "fullscreen": true,
-            "components": [
-                {
-                    "type": "editor",
-                    "dataApi": "/api/editor/load"
-                }
-            ]
-        }
-    ]
+    }
 }

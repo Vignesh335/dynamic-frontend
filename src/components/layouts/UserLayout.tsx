@@ -1,34 +1,61 @@
-import type { ReactNode } from "react";
+import { Link, useLocation } from "react-router-dom";
+import type { LayoutConfig, MenuItem } from "../../types/AppConfig";
 
 interface Props {
-  children: ReactNode;
+  config: LayoutConfig;
+  children: React.ReactNode;
 }
 
-const UserLayout = ({ children }: Props) => {
+const UserLayout = ({ config, children }: Props) => {
+  const location = useLocation();
+
+  const renderSiderItem = (item: MenuItem) => {
+    const active =
+      item.route === location.pathname ||
+      item.additionalPaths?.includes(location.pathname);
+
+    return (
+      <li
+        key={item.key}
+        className={`sider-item ${active ? "active" : ""}`}
+        style={{
+          padding: "10px 15px",
+          background: active ? "#e8f1ff" : "transparent",
+          borderRadius: 6,
+          marginBottom: 4,
+        }}
+      >
+        <Link to={item.route || "#"}>{item.label}</Link>
+      </li>
+    );
+  };
+
   return (
-    <div style={{ display: "flex", minHeight: "100vh" }}>
-      {/* Sidebar */}
-      <aside style={{ width: "250px", backgroundColor: "#f7f7f7", padding: "20px" }}>
-        <h2>User Menu</h2>
+    <div
+      className="user-layout"
+      style={{
+        display: "flex",
+        height: "100vh",
+        background: config.theme === "dark" ? "#1e1e1e" : "#f8f9fa",
+      }}
+    >
+      {/* SIDEBAR */}
+      <aside
+        style={{
+          width: 220,
+          padding: 20,
+          background: "#fff",
+          borderRight: "1px solid #eee",
+        }}
+      >
+        <h3 style={{ marginBottom: 20 }}>User Menu</h3>
         <ul style={{ listStyle: "none", padding: 0 }}>
-          <li><a href="/dashboard">Dashboard</a></li>
-          <li><a href="/profile">Profile</a></li>
-          <li><a href="/orders">Orders</a></li>
+          {config.sider_items.map(renderSiderItem)}
         </ul>
       </aside>
 
-      {/* Main content */}
-      <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
-        {/* Topbar */}
-        <header style={{ padding: "15px", backgroundColor: "#1E90FF", color: "#fff" }}>
-          <h1>User Dashboard</h1>
-        </header>
-
-        {/* Dynamic Page */}
-        <main style={{ flex: 1, padding: "20px" }}>
-          {children}
-        </main>
-      </div>
+      {/* CONTENT */}
+      <main style={{ flex: 1, padding: 20 }}>{children}</main>
     </div>
   );
 };
