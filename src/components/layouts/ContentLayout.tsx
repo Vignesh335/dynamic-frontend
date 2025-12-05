@@ -23,9 +23,121 @@ import React from "react";
  * MAIN COMPONENT
  * templateId 1–15
  */
+
 export default function ContentLayouts({
     templateId = 15,
-    data = {},
+    data = {
+        title: "Content Layout",
+        subtitle: "Subtitle goes here",
+        description:
+            "This is a flexible content layout component that can adapt to various structures and designs based on the provided template ID and data.",
+        stats: [
+            { label: "Active Users", value: "12.4K" },
+            { label: "Conversion Rate", value: "7.8%" },
+            { label: "Revenue", value: "$24.1K" },
+            { label: "Growth", value: "+18%" },
+        ],
+        cards: [
+            {
+                title: "Card One",
+                subtitle: "Subtitle one",
+                description: "This is a description for card one.",
+                image: "https://placekitten.com/400/250",
+                button: "Learn More",
+            },
+            {
+                title: "Card Two",
+                subtitle: "Category",
+                description: "This card demonstrates how different layouts work.",
+                image: "https://placekitten.com/401/250",
+                button: "Open",
+            },
+            {
+                title: "Card Three",
+                subtitle: "Another Info",
+                description: "Add as many cards as you want.",
+                image: "https://placekitten.com/402/250",
+                button: "Details",
+            },
+        ],
+        form: [
+            {
+                label: "Full Name",
+                type: "text",
+                placeholder: "Enter your full name",
+            },
+            {
+                label: "Email Address",
+                type: "email",
+                placeholder: "Enter your email",
+            },
+            {
+                label: "Message",
+                type: "textarea",
+                placeholder: "Write your message here...",
+            },
+            {
+                label: "Subject",
+                type: "select",
+                placeholder: "Select a subject",
+                options: ["General Inquiry", "Support", "Feedback"],
+            },
+        ],
+        table: {
+            columns: ["Name", "Email", "Role", "Status"],
+            rows: [
+                ["Alice Johnson", "alice@example.com", "Admin", "Active"],
+                ["Bob Smith", "bob@example.com", "Editor", "Inactive"],
+                ["Charlie Brown", "charlie@example.com", "Viewer", "Active"],
+            ],
+        },
+        steps: [
+            {
+                title: "Account Setup",
+                description: "Enter your account details and choose a password.",
+            },
+            {
+                title: "Profile Info",
+                description: "Fill in your personal information and preferences.",
+            },
+            {
+                title: "Confirmation",
+                description: "Review your details and confirm to finish setup.",
+            },
+        ],
+        chat: [
+            { from: "me", message: "Hey, are you available for a call?", time: "10:01 AM" },
+            { from: "other", message: "Yes, let's start in 5 minutes.", time: "10:02 AM" },
+            { from: "me", message: "Great, see you then!", time: "10:03 AM" },
+        ],
+        media: {
+            type: "image", // "image" or "video"
+            src: "https://via.placeholder.com/800x420", // Replace with your media URL
+        },
+        sitemap: ["Introduction", "Installation", "Usage", "Examples", "API Reference", "FAQ"],
+        timeline: [
+            {
+                title: "Project Kickoff",
+                description: "Initial project planning and team alignment.",
+                date: "Jan 2025",
+            },
+            {
+                title: "Prototype Release",
+                description: "First version of the prototype delivered.",
+                date: "Mar 2025",
+            },
+            {
+                title: "Beta Launch",
+                description: "Beta version released to selected users.",
+                date: "Jun 2025",
+            },
+            {
+                title: "Public Launch",
+                description: "Full product launch to the market.",
+                date: "Sep 2025",
+            },
+        ],
+    },
     width = "100%",
     maxWidth = "1100px",
     className = "",
@@ -61,6 +173,8 @@ export default function ContentLayouts({
     const C1 = () => (
         <Section>
             <TitleBlock />
+
+            {/* IMAGE */}
             {data.media?.type === "image" && (
                 <img
                     src={data.media.src}
@@ -68,6 +182,8 @@ export default function ContentLayouts({
                     alt=""
                 />
             )}
+
+            {/* VIDEO */}
             {data.media?.type === "video" && (
                 <video
                     controls
@@ -75,6 +191,8 @@ export default function ContentLayouts({
                     src={data.media.src}
                 />
             )}
+
+            {/* DESCRIPTION */}
             <div className="prose prose-invert max-w-none mt-4">
                 {data.description || "Content area goes here..."}
             </div>
@@ -87,11 +205,16 @@ export default function ContentLayouts({
     const C2 = () => (
         <Section>
             <TitleBlock />
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                {/* LEFT COLUMN */}
                 <div>
                     {data.description ||
                         "Left content goes here. Paragraphs / components / widgets."}
                 </div>
+
+                {/* RIGHT COLUMN (Stats Panel) */}
                 <div className="bg-[#1b1f28] rounded-xl p-5 shadow-lg border border-[#2a2e39]">
                     {data.stats ? (
                         <div className="grid grid-cols-2 gap-4">
@@ -121,16 +244,21 @@ export default function ContentLayouts({
     const C3 = () => (
         <Section>
             <TitleBlock />
+
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
                 {/* MAIN CONTENT (2/3) */}
                 <div className="lg:col-span-2">
                     {data.description || "Main content goes here"}
+
+                    {/* MEDIA BLOCK */}
                     {data.media && (
                         <div className="mt-6">
                             {data.media.type === "image" ? (
                                 <img
                                     src={data.media.src}
-                                    className="w-full rounded-lg shadow-xl"
+                                    className="w-full rounded-lg shadow-xl object-cover"
+                                    alt=""
                                 />
                             ) : (
                                 <video
@@ -142,13 +270,18 @@ export default function ContentLayouts({
                         </div>
                     )}
                 </div>
-                {/* SUMMARY PANEL (1/3) */}
+
+                {/* SUMMARY SIDEBAR (1/3) */}
                 <div className="bg-[#1b1f28] rounded-xl p-6 shadow-xl border border-[#2a2e39]">
                     <h2 className="font-semibold text-lg mb-4">Summary</h2>
+
                     {data.stats ? (
                         <div className="space-y-4">
                             {data.stats.map((s: any) => (
-                                <div key={s.label} className="flex items-center justify-between">
+                                <div
+                                    key={s.label}
+                                    className="flex items-center justify-between"
+                                >
                                     <span className="opacity-70">{s.label}</span>
                                     <span className="text-indigo-400 font-semibold text-lg">
                                         {s.value}
@@ -160,6 +293,7 @@ export default function ContentLayouts({
                         "Add stats[] to show structured summary"
                     )}
                 </div>
+
             </div>
         </Section>
     );
@@ -170,25 +304,36 @@ export default function ContentLayouts({
     const C4 = () => (
         <Section>
             <TitleBlock />
+
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {data.cards?.map((card: any, index: any) => (
                     <div
                         key={index}
                         className="bg-[#1b1f28] rounded-xl p-5 shadow-xl border border-[#2a2e39] flex flex-col"
                     >
+                        {/* IMAGE */}
                         {card.image && (
                             <img
                                 src={card.image}
                                 className="h-36 w-full object-cover rounded-lg mb-4"
+                                alt=""
                             />
                         )}
+
+                        {/* TITLE */}
                         <h3 className="text-lg font-semibold mb-1">{card.title}</h3>
+
+                        {/* SUBTITLE */}
                         {card.subtitle && (
                             <p className="text-sm opacity-60 mb-2">{card.subtitle}</p>
                         )}
+
+                        {/* DESCRIPTION */}
                         {card.description && (
                             <p className="text-sm opacity-80 flex-grow">{card.description}</p>
                         )}
+
+                        {/* BUTTON */}
                         {card.button && (
                             <button className="mt-4 py-2 rounded-lg bg-indigo-500 hover:bg-indigo-600 active:scale-95 transition">
                                 {card.button}
@@ -206,6 +351,7 @@ export default function ContentLayouts({
     const C5 = () => (
         <Section>
             <TitleBlock />
+
             <div className="bg-[#1b1f28] rounded-2xl p-6 shadow-xl border border-[#2a2e39] max-w-2xl">
                 <form className="space-y-4">
                     {data.form?.map((field: any, idx: any) => (
@@ -213,6 +359,7 @@ export default function ContentLayouts({
                             <label className="text-sm font-medium text-gray-200">
                                 {field.label}
                             </label>
+
                             {field.type === "select" ? (
                                 <select
                                     className="bg-[#131721] border border-[#2a2e39] rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
@@ -227,6 +374,11 @@ export default function ContentLayouts({
                                         </option>
                                     ))}
                                 </select>
+                            ) : field.type === "textarea" ? (
+                                <textarea
+                                    placeholder={field.placeholder}
+                                    className="bg-[#131721] border border-[#2a2e39] rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none h-24"
+                                />
                             ) : (
                                 <input
                                     type={field.type || "text"}
@@ -254,9 +406,11 @@ export default function ContentLayouts({
     const C6 = () => (
         <Section>
             <TitleBlock />
+
             <div className="bg-[#1b1f28] rounded-2xl shadow-xl border border-[#2a2e39] overflow-hidden">
                 <div className="overflow-x-auto">
                     <table className="min-w-full text-sm">
+                        {/* TABLE HEADER */}
                         <thead className="bg-[#151822]">
                             <tr>
                                 {(data.table?.columns || []).map((col: any) => (
@@ -269,6 +423,8 @@ export default function ContentLayouts({
                                 ))}
                             </tr>
                         </thead>
+
+                        {/* TABLE BODY */}
                         <tbody>
                             {(data.table?.rows || []).map((row: any, idx: any) => (
                                 <tr
@@ -285,6 +441,8 @@ export default function ContentLayouts({
                                     ))}
                                 </tr>
                             ))}
+
+                            {/* EMPTY STATE */}
                             {!data.table?.rows?.length && (
                                 <tr>
                                     <td
@@ -313,30 +471,33 @@ export default function ContentLayouts({
             if (!columnsMap.has(colKey)) columnsMap.set(colKey, []);
             columnsMap.get(colKey).push(card);
         });
+
         const columnEntries = Array.from(columnsMap.entries());
 
         return (
             <Section>
                 <TitleBlock />
+
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                     {columnEntries.map(([colTitle, cards]) => (
                         <div
                             key={colTitle}
                             className="bg-[#1b1f28] rounded-2xl p-4 shadow-xl border border-[#2a2e39] flex flex-col"
                         >
+                            {/* Column Header */}
                             <div className="flex items-center justify-between mb-3">
                                 <span className="text-sm font-semibold">{colTitle}</span>
                                 <span className="text-xs text-gray-400">{cards.length}</span>
                             </div>
+
+                            {/* Cards */}
                             <div className="space-y-3">
                                 {cards.map((card: any, idx: any) => (
                                     <div
                                         key={idx}
                                         className="bg-[#131721] rounded-xl p-3 border border-[#262b36] shadow-sm"
                                     >
-                                        <div className="text-sm font-medium mb-1">
-                                            {card.title}
-                                        </div>
+                                        <div className="text-sm font-medium mb-1">{card.title}</div>
                                         {card.description && (
                                             <div className="text-xs text-gray-400 line-clamp-3">
                                                 {card.description}
@@ -347,6 +508,8 @@ export default function ContentLayouts({
                             </div>
                         </div>
                     ))}
+
+                    {/* Empty state */}
                     {!columnEntries.length && (
                         <div className="text-sm text-gray-500">
                             Add <code>cards[]</code> with <code>subtitle</code> to render
@@ -363,10 +526,12 @@ export default function ContentLayouts({
        ╚══════════════════════════════════════════════════════════╝ */
     const C8 = () => {
         const steps = data.steps || [];
+
         return (
             <Section>
                 <TitleBlock />
-                {/* Stepper header */}
+
+                {/* Stepper Header */}
                 <div className="flex items-center gap-3 mb-6 overflow-x-auto pb-2">
                     {steps.map((step: any, idx: any) => {
                         const active = idx === 0;
@@ -383,21 +548,21 @@ export default function ContentLayouts({
                                 <span className="ml-2 mr-3 text-xs text-gray-300 whitespace-nowrap">
                                     {step.title}
                                 </span>
-                                {idx < steps.length - 1 && (
-                                    <div className="w-8 h-px bg-[#2a2e39]" />
-                                )}
+                                {idx < steps.length - 1 && <div className="w-8 h-px bg-[#2a2e39]" />}
                             </div>
                         );
                     })}
                 </div>
 
-                {/* Current step content (show first as active) */}
+                {/* Current Step Content */}
                 {steps[0] && (
                     <div className="bg-[#1b1f28] rounded-2xl p-6 shadow-xl border border-[#2a2e39]">
                         <h2 className="text-lg font-semibold mb-2">{steps[0].title}</h2>
                         <p className="text-sm text-gray-300">
                             {steps[0].description || "Step details go here."}
                         </p>
+
+                        {/* Step Actions */}
                         <div className="mt-4 flex gap-3">
                             <button className="px-4 py-2 text-sm rounded-lg bg-indigo-500 hover:bg-indigo-600 transition active:scale-95">
                                 Next
@@ -408,6 +573,8 @@ export default function ContentLayouts({
                         </div>
                     </div>
                 )}
+
+                {/* Empty State */}
                 {!steps.length && (
                     <p className="text-sm text-gray-500">
                         Add <code>steps[]</code> to render the wizard.
@@ -423,6 +590,7 @@ export default function ContentLayouts({
     const C9 = () => (
         <Section>
             <TitleBlock />
+
             <div className="bg-[#1b1f28] rounded-2xl shadow-xl border border-[#2a2e39] flex flex-col h-[420px] max-h-[70vh]">
                 {/* Messages */}
                 <div className="flex-1 overflow-y-auto p-4 space-y-3">
@@ -431,8 +599,7 @@ export default function ContentLayouts({
                         return (
                             <div
                                 key={idx}
-                                className={`flex ${isMe ? "justify-end" : "justify-start"
-                                    } text-sm`}
+                                className={`flex ${isMe ? "justify-end" : "justify-start"} text-sm`}
                             >
                                 <div
                                     className={`max-w-xs px-3 py-2 rounded-2xl shadow ${isMe
@@ -477,6 +644,7 @@ export default function ContentLayouts({
    ╚══════════════════════════════════════════════════════════╝ */
     const C10 = () => (
         <Section>
+            {/* Media */}
             {data.media && (
                 <div className="mb-6">
                     {data.media.type === "image" ? (
@@ -494,6 +662,8 @@ export default function ContentLayouts({
                     )}
                 </div>
             )}
+
+            {/* Title & Description */}
             <TitleBlock />
             <div className="prose prose-invert max-w-none mt-4">
                 {data.description || "Write compelling content below the media."}
@@ -507,11 +677,9 @@ export default function ContentLayouts({
     const C11 = () => (
         <Section>
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-                {/* TOC SIDEBAR */}
+                {/* TOC Sidebar */}
                 <aside className="lg:col-span-1 bg-[#1b1f28] rounded-2xl p-5 border border-[#2a2e39] shadow-lg h-fit sticky top-4">
-                    <h3 className="text-sm font-semibold mb-3 opacity-90">
-                        Table of Contents
-                    </h3>
+                    <h3 className="text-sm font-semibold mb-3 opacity-90">Table of Contents</h3>
                     <ul className="space-y-2 text-sm">
                         {(data.sitemap || []).map((item: any) => (
                             <li key={item} className="opacity-70 hover:opacity-100 transition">
@@ -526,7 +694,7 @@ export default function ContentLayouts({
                     </ul>
                 </aside>
 
-                {/* ARTICLE CONTENT */}
+                {/* Article Content */}
                 <article className="lg:col-span-3">
                     <TitleBlock />
                     <div className="prose prose-invert max-w-none">
@@ -543,6 +711,7 @@ export default function ContentLayouts({
        ╚══════════════════════════════════════════════════════════╝ */
     const C12 = () => {
         const cards = data.cards || [];
+
         return (
             <Section>
                 <TitleBlock />
@@ -551,16 +720,17 @@ export default function ContentLayouts({
                         <div
                             key={index}
                             className={`rounded-2xl p-6 shadow-xl border transition hover:-translate-y-1 ${index === 1
-                                    ? "bg-indigo-600 border-indigo-500"
-                                    : "bg-[#1b1f28] border-[#2a2e39]"
+                                ? "bg-indigo-600 border-indigo-500"
+                                : "bg-[#1b1f28] border-[#2a2e39]"
                                 }`}
                         >
+                            {/* Title & Subtitle */}
                             <h3 className="text-xl font-semibold mb-1">{card.title}</h3>
                             {card.subtitle && (
                                 <p className="text-sm opacity-70 mb-4">{card.subtitle}</p>
                             )}
 
-                            {/* PRICE */}
+                            {/* Price */}
                             {card.description && (
                                 <p className="text-3xl font-bold mb-6 text-indigo-300">
                                     {card.description}
@@ -568,7 +738,7 @@ export default function ContentLayouts({
                                 </p>
                             )}
 
-                            {/* FEATURES (reuse links array for features) */}
+                            {/* Features */}
                             {card.links && (
                                 <ul className="space-y-2 text-sm mb-6">
                                     {card.links.slice(0, 7).map((f: any) => (
@@ -579,12 +749,12 @@ export default function ContentLayouts({
                                 </ul>
                             )}
 
-                            {/* CTA */}
+                            {/* CTA Button */}
                             {card.button && (
                                 <button
                                     className={`mt-4 w-full py-2 rounded-lg text-sm font-medium active:scale-95 transition ${index === 1
-                                            ? "bg-white text-indigo-700 hover:bg-gray-200"
-                                            : "bg-indigo-500 hover:bg-indigo-600"
+                                        ? "bg-white text-indigo-700 hover:bg-gray-200"
+                                        : "bg-indigo-500 hover:bg-indigo-600"
                                         }`}
                                 >
                                     {card.button}
@@ -595,7 +765,7 @@ export default function ContentLayouts({
 
                     {!cards.length && (
                         <p className="text-gray-500 text-sm">
-                            Add <code>cards[]</code> with {`{title, description, links[], button}`}
+                            Add <code>cards[]</code> with {"{title, description, links[], button}"}
                         </p>
                     )}
                 </div>
@@ -615,10 +785,14 @@ export default function ContentLayouts({
                         key={idx}
                         className="relative overflow-hidden rounded-xl group cursor-pointer"
                     >
+                        {/* Image */}
                         <img
                             src={card.image}
+                            alt={card.title}
                             className="h-44 w-full object-cover rounded-xl transition group-hover:scale-105"
                         />
+
+                        {/* Hover Overlay */}
                         <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition flex items-end p-3">
                             <div>
                                 <h4 className="text-sm font-semibold">{card.title}</h4>
@@ -675,18 +849,16 @@ export default function ContentLayouts({
        ╚══════════════════════════════════════════════════════════╝ */
     const C15 = () => {
         const cards = data.cards || [];
-        const filters = data.stats || []; // Reusing stats[] as "filters"
+        const filters = data.stats || []; // Using stats[] as filters
         const preview = cards[0]; // First card as preview
 
         return (
             <Section>
                 <TitleBlock />
                 <div className="grid grid-cols-12 gap-6">
-                    {/* FILTER PANEL (stats[]) */}
+                    {/* FILTER PANEL */}
                     <aside className="col-span-12 md:col-span-3 bg-[#1b1f28] rounded-2xl p-5 shadow-xl border border-[#2a2e39] space-y-4">
-                        <h3 className="text-sm font-semibold mb-2 opacity-90">
-                            Filters
-                        </h3>
+                        <h3 className="text-sm font-semibold mb-2 opacity-90">Filters</h3>
                         {filters.map((f: any, i: any) => (
                             <div
                                 key={i}
@@ -703,7 +875,7 @@ export default function ContentLayouts({
                         )}
                     </aside>
 
-                    {/* RESULTS LIST (cards[]) */}
+                    {/* RESULTS LIST */}
                     <div className="col-span-12 md:col-span-5 space-y-4 max-h-[70vh] overflow-y-auto pr-2">
                         {cards.map((card: any, idx: any) => (
                             <div
@@ -723,7 +895,7 @@ export default function ContentLayouts({
                         )}
                     </div>
 
-                    {/* PREVIEW PANEL (first card) */}
+                    {/* PREVIEW PANEL */}
                     <aside className="col-span-12 md:col-span-4 bg-[#1b1f28] rounded-2xl p-6 shadow-xl border border-[#2a2e39]">
                         {preview ? (
                             <>
@@ -735,9 +907,7 @@ export default function ContentLayouts({
                                 )}
                                 <h3 className="text-lg font-semibold mb-1">{preview.title}</h3>
                                 {preview.subtitle && (
-                                    <p className="text-sm text-gray-400 mb-3">
-                                        {preview.subtitle}
-                                    </p>
+                                    <p className="text-sm text-gray-400 mb-3">{preview.subtitle}</p>
                                 )}
                                 {preview.description && (
                                     <p className="text-sm opacity-80">{preview.description}</p>
