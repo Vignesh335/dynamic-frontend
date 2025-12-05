@@ -17,7 +17,7 @@
     },
     "layouts": {
         "user": {
-            "layout_id": 4,
+            "layout_id": 3,
             "theme": "light",
             "header": {
                 "variant": "centered",

@@ -68,33 +68,44 @@ export default function LayoutTemplates({
     };
 
     const layout1 = (
-        <div style={{ ...baseBox, display: "flex", flexDirection: "column" }}>
+        <div style={{ ...baseBox, display: "flex", flexDirection: "column", overflow: "auto" }}>
             <div style={header}>
                 <HeaderLayouts items={headerItems} variant={config.header?.variant || "default"} />
             </div>
-            <div style={content}>{children}</div>
-            <div style={footer}>Footer</div>
+            <div style={content}>
+                <ContentLayouts />
+                {children}
+            </div>
+            <div style={footer}>
+                <FooterLayouts templateId={8} />
+            </div>
         </div>
     );
 
     // header + sider (left) + content
     const layout2 = (
-        <div style={{ ...baseBox, display: "flex", flexDirection: "column" }}>
+        <div style={{ ...baseBox, display: "flex", flexDirection: "column", overflow: "auto" }}>
             <div style={header}><HeaderLayouts items={headerItems} variant={config.header?.variant || "default"} /></div>
             <div style={{ display: "flex", flex: 1 }}>
                 <div style={sider}><SiderTemplates variant={config.sider?.variant || 'default'} /></div>
-                <div style={content}>{children}</div>
+                <div style={content}>
+                    <ContentLayouts />
+                    {children}
+                </div>
             </div>
-            <div style={footer}>Footer</div>
+            <div style={footer}>
+                <FooterLayouts templateId={8} />
+            </div>
         </div>
     );
 
     // header + content + sider (right)
     const layout3 = (
-        <div style={{ ...baseBox, display: "flex", flexDirection: "column" }}>
+        <div style={{ ...baseBox, display: "flex", flexDirection: "column", overflow: "auto" }}>
             <div style={header}><HeaderLayouts items={headerItems} variant={config.header?.variant || "default"} /></div>
             <div style={{ display: "flex", flex: 1 }}>
                 <div style={content}>
+                    <ContentLayouts />
                     {children}
                 </div>
                 <div style={sider}>
@@ -116,6 +127,7 @@ export default function LayoutTemplates({
                     display: "flex",
                     flexDirection: "column",
                     flex: 1,
+                    overflow: "auto",
                 }}
             >
                 <div style={header}><HeaderLayouts items={headerItems} variant={config.header?.variant || "default"} /></div>
@@ -123,7 +135,9 @@ export default function LayoutTemplates({
                     <ContentLayouts />
                     {/* {children} */}
                 </div>
-                <div style={footer}>Footer</div>
+                <div style={footer}>
+                    <FooterLayouts templateId={8} />
+                </div>
             </div>
         </div>
     );
